@@ -1,12 +1,10 @@
 package com.students.project.model;
 
-import jdk.jfr.Enabled;
-import nonapi.io.github.classgraph.json.Id;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
 import java.util.Objects;
 
 @Entity

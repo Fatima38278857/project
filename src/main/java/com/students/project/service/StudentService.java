@@ -1,8 +1,9 @@
 package com.students.project.service;
 
-import com.project.students.exception.StudentNotFoundException;
-import com.project.students.model.Student;
-import com.project.students.repository.StudentRepository;
+
+import com.students.project.exception.StudentNotFoundException;
+import com.students.project.model.Student;
+import com.students.project.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,10 +12,11 @@ import java.util.Collection;
 @Service
 public class StudentService {
 
-    private final StudentService studentRepository;
+    private final StudentRepository studentRepository;
 
-
-
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
     // В каждом сервисе реализовать CRUD-методы для создания, чтения, изменения и удаления сущностей.
 
     public Student create(Student student) {
@@ -24,8 +26,7 @@ public class StudentService {
 
     public Student read(long id) {
         return studentRepository.findById(id).orElseThrow(() ->
-            new StudentNotFoundException("Такого студента нет")
-        );
+                new StudentNotFoundException("Такого студента нет"));
 
     }
 

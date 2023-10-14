@@ -16,7 +16,7 @@ public class FacultyController {
 
    private final FacultyService facultyService;
 
-    public FacultyController(FacultyService facultyService) {
+    public FacultyController (FacultyService facultyService) {
         this.facultyService = facultyService;
     }
 
@@ -40,8 +40,8 @@ public class FacultyController {
         facultyService.deleteFaculty(id);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
+    @GetMapping(params = {"faculty"})
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(name = "faculty", required = false) String color) {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findColor(color));
         }

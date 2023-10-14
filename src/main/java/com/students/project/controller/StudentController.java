@@ -1,7 +1,8 @@
 package com.students.project.controller;
 
-import com.project.students.model.Student;
-import com.project.students.service.StudentService;
+
+import com.students.project.model.Student;
+import com.students.project.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
