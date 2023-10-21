@@ -2,12 +2,14 @@ package com.students.project.service;
 
 
 import com.students.project.exception.StudentNotFoundException;
+import com.students.project.model.Faculty;
 import com.students.project.model.Student;
 import com.students.project.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -47,6 +49,22 @@ public class StudentService {
         }
         return result;
     }
+
+       public List<Student> findByAllAge(int min, int max){
+       return studentRepository.findByAgeBetween(min, max);
+    }
+
+    public List<Student> AllStudentInformation(){
+        return studentRepository.studentAll();
+    }
+
+       public Faculty  getFacultyById(Long id){
+        return studentRepository.findById(id).get().getFaculty();
+      }
+
+      public List<Student> getByFacultyId(Long facultyId){
+        return studentRepository.findByFacultyId(facultyId);
+      }
 }
 
 
