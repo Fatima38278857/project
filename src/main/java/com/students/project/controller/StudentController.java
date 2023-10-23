@@ -62,7 +62,7 @@ public class StudentController {
         return studentService.AllStudentInformation();
     }
 
-    @GetMapping({"faculty-student"})
+    @GetMapping ({"faculty-student"})
     public Faculty getFacultyByStudentId(@RequestParam Long id){
         return studentService.getFacultyById(id);
     }

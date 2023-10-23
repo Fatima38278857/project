@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class FacultyService {
+public class  FacultyService {
 
     private final FacultyRepository facultyRepository;
     private final StudentRepository studentRepository;

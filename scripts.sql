@@ -1,5 +1,5 @@
 select * from student s
-where s.age between 10 and 20;
+where s.age between  10 and 20;
 
 select s."name" from student s;
 
