@@ -43,7 +43,7 @@ public class StudentController {
         studentService.deletee(id);
     }
 
-    @GetMapping(params = {"age"})
+    @GetMapping({"age"})
     public ResponseEntity<Collection<Student>> findStudents(@RequestParam(name = "age", required = false) int age) {
         if (age > 0) {
             return ResponseEntity.ok(studentService.findByAge(age));
@@ -59,12 +59,17 @@ public class StudentController {
 
     @GetMapping("All- student")
     public List<Student> geyAllStudent(){
-        return studentService.AllStudentInformation();
+        return studentService.allStudentInformation();
     }
 
     @GetMapping ({"faculty-student"})
     public Faculty getFacultyByStudentId(@RequestParam Long id){
         return studentService.getFacultyById(id);
+    }
+
+    @GetMapping({"/sum_student"})
+    public Integer sumStudent(){
+        return studentService.getAllStudentsNumber();
     }
 }
 
