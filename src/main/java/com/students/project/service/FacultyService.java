@@ -48,7 +48,7 @@ public class  FacultyService {
     public Collection<Faculty> findColor(String color) {
         ArrayList<Faculty> result = new ArrayList<>();
         for (Faculty faculty : facultyRepository.findAll()) {
-            if (Objects.equals(faculty.getColor(), color)) {
+            if ((faculty.getColor().equals(color))) {
                 result.add(faculty);
             }
         }

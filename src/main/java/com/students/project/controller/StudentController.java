@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("student")
+@RequestMapping("/student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -43,30 +43,46 @@ public class StudentController {
         studentService.deletee(id);
     }
 
-    @GetMapping(params = {"age"})
-    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(name = "age", required = false) int age) {
-        if (age > 0) {
+    @GetMapping
+    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(name = "age", required = false) Integer age) {
+        if (age != null) {
             return ResponseEntity.ok(studentService.findByAge(age));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(studentService.allStudentInformation());
     }
 
     @GetMapping({"min-And-min"})
     public List<Student> filtrAge(@RequestParam int min, @RequestParam() int max) {
-        return  studentService.findByAllAge(min, max);
+        return studentService.findByAllAge(min, max);
     }
 
 
     @GetMapping("All- student")
-    public List<Student> geyAllStudent(){
-        return studentService.AllStudentInformation();
+    public List<Student> geyAllStudent() {
+        return studentService.allStudentInformation();
     }
 
-    @GetMapping ({"faculty-student"})
-    public Faculty getFacultyByStudentId(@RequestParam Long id){
+    @GetMapping({"faculty-student"})
+    public Faculty getFacultyByStudentId(@RequestParam Long id) {
         return studentService.getFacultyById(id);
     }
+
+    @GetMapping({"/sum_student"})
+    public Integer sumStudent() {
+        return studentService.getAllStudentsNumber();
+    }
+
+    @GetMapping({"/average-value"})
+    public Double getAvg() {
+        return studentService.getAvg();
+    }
+
+    @GetMapping({"/five-students"})
+    public List<Student> getFiveStudents() {
+        return studentService.getFiveStudents();
+    }
 }
+
 
 
 

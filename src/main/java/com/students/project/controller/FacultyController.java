@@ -43,8 +43,8 @@ public class FacultyController {
         facultyService.deleteFaculty(id);
     }
 
-    @GetMapping(params = {"faculty"})
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(name = "faculty", required = false) String color) {
+    @GetMapping({"/color-faculty"})
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(name = "color", required = false) String color) {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findColor(color));
         }
