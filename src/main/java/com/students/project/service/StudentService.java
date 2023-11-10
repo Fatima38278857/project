@@ -36,7 +36,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public void deletee(long id) {
+    public void delete(long id) {
         studentRepository.deleteById(id);
     }
 
@@ -77,6 +77,7 @@ public class StudentService {
     public  List<Student> getFiveStudents() {
         return studentRepository.getLastFiveStudents();
     }
+
 }
 
 

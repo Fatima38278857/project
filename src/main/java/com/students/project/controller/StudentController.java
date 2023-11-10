@@ -4,12 +4,10 @@ package com.students.project.controller;
 import com.students.project.model.Faculty;
 import com.students.project.model.Student;
 import com.students.project.service.StudentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -39,8 +37,8 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-    public void ydolit(@PathVariable Long id) {
-        studentService.deletee(id);
+    public void deleteStudent(@PathVariable Long id) {
+        studentService.delete(id);
     }
 
     @GetMapping

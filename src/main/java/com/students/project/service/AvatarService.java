@@ -7,6 +7,8 @@ import com.students.project.repository.AvatarRepository;
 import com.students.project.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -62,4 +65,10 @@ public class AvatarService {
         return avatarRepository.findById(id).get();
 
     }
+
+    public Page<Avatar> getListsAvatars(Integer pageNumber, Integer pageSize) {
+        return avatarRepository.findAll(PageRequest.of(pageNumber - 1, pageSize));
+    }
+
+
 }

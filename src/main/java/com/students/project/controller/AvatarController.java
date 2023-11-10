@@ -5,6 +5,7 @@ import com.students.project.model.Avatar;
 import com.students.project.model.Student;
 import com.students.project.service.AvatarService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("avatar")
@@ -58,4 +60,11 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+    @GetMapping
+    private Page<Avatar> getAllAvatar(@RequestParam ("page") Integer pageNumber, @RequestParam("size") Integer pageSize){
+        return avatarService.getListsAvatars(pageNumber, pageSize);
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.students.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Arrays;
@@ -15,6 +16,7 @@ public class Avatar {
     private long fileSize; // Это поле содержит информацию о размере файла в байтах.
     private String mediaType; // Тип файла.
     @Lob
+
     private byte[] data; // В этом поле хранится сама информация о файле, представленная в массиве байтов
     @OneToOne
     private Student student;
