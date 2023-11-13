@@ -49,8 +49,8 @@ public class StudentController {
         return ResponseEntity.ok(studentService.allStudentInformation());
     }
 
-    @GetMapping({"min-And-min"})
-    public List<Student> filtrAge(@RequestParam int min, @RequestParam() int max) {
+    @GetMapping({"min-And-max"})
+    public List<Student> filterAge(@RequestParam int min, @RequestParam() int max) {
         return studentService.findByAllAge(min, max);
     }
 
