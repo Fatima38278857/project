@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FacultyControllerTest {
 
@@ -32,9 +33,10 @@ class FacultyControllerTest {
     @Test
     void post() {
         Faculty faculty = new Faculty(1L, "Грифендор", "Золото");
-        Assertions
-                .assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/faculty", faculty, Faculty.class))
-                .isNotNull();
+        String url = "http://localhost:" + port + "/faculty";
+        Faculty faculty1 = restTemplate.postForObject(url, faculty, Faculty.class);
+        assertEquals(faculty, faculty1);
+
     }
 
     @Test

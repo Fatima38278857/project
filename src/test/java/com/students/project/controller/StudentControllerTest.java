@@ -1,5 +1,7 @@
 package com.students.project.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.students.project.model.Student;
 import org.assertj.core.api.Assertions;
 import org.checkerframework.checker.units.qual.min;
@@ -26,6 +28,8 @@ class StudentControllerTest {
     private StudentController studentController;
     @Autowired
     private TestRestTemplate restTemplate;
+    private ObjectMapper objectMapper;
+
 
     @Test
     void get() {
@@ -38,17 +42,13 @@ class StudentControllerTest {
     @Test
     void post_success() {
         Student student1 = new Student(1L, "Bася", 22);
-        Assertions
-                .assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/student", student1, Student.class))
-                .isNotNull();
+        assertEquals(student1, restTemplate.postForObject("http://localhost:" + port + "/student", student1, Student.class));
     }
 
     @Test
     void put() {
         // Принимает
         Student student1 = new Student(1L, "Bася", 22);
-
-
         HttpEntity<Student> entity = new HttpEntity<Student>(student1);
         Student response = restTemplate.exchange("http://localhost:" + port + "/student", HttpMethod.PUT, entity, Student.class).getBody();
 
@@ -63,56 +63,47 @@ class StudentControllerTest {
         Student postedStudent = this.restTemplate.postForObject("http://localhost:" + port + "/student", student1, Student.class);
         String url = "http://localhost:" + port + "/student/" + postedStudent.getId();
         restTemplate.delete(url);
-        Student actualStudent = this.restTemplate.getForObject("http://localhost:" + port + "/student/" + student1.getId(), Student.class);
+        Student actualStudent = restTemplate.getForObject("http://localhost:" + port + "/student/" + student1.getId(), Student.class);
         assertNull(actualStudent.getId());
 
     }
 
     @Test
-    void findStudents() {
+    void findStudents()  {
         Student student1 = new Student(1L, "Bася", 22);
-        Student postedStudent = this.restTemplate.postForObject("http://localhost:" + port + "/student", student1, Student.class);
+        Student student2 = new Student(2L, "Bася", 25);
+        Student student3 = new Student(3L, "Bася", 22);
+        List<Student> expectedStudent = new ArrayList<>(List.of(
+                student1,
+                student3
+        ));
+        restTemplate.postForObject("http://localhost:" + port + "/student", student1, Student.class);
+        restTemplate.postForObject("http://localhost:" + port + "/student", student2, Student.class);
+        restTemplate.postForObject("http://localhost:" + port + "/student", student3, Student.class);
         String url = "http://localhost:" + port + "/student" + "?age=" + "22";
-        Student[] students = restTemplate.getForObject(url, Student[].class);
-        assertEquals(student1.getAge(), students[0].getAge());
+        List<?> actualStudent = restTemplate.getForObject(url, List.class);
+        assertEquals(expectedStudent, actualStudent);
+
+
     }
-
-
-
 
        @Test
       void filterAge() {
-            List<Student> age = studentController(14, 17);
-            String url = "http://localhost:" + port + "/student" + "/min-And-max" + "?min=" + "14" + "&max=" + "17";
-            Student[] students = restTemplate.getForObject(url, Student[].class, age);
-            assertEquals(studentController.filtrAge(14, 17),  );
+           Student student1 = new Student(1L, "Bася", 22);
+           Student student2 = new Student(2L, "Bася", 25);
+           Student student3 = new Student(3L, "Bася", 22);
+           List<Student> expectedStudent = new ArrayList<>(List.of(
+                   student1,
+                   student3
+           ));
+           restTemplate.postForObject("http://localhost:" + port + "/student", student1, Student.class);
+           restTemplate.postForObject("http://localhost:" + port + "/student", student2, Student.class);
+           restTemplate.postForObject("http://localhost:" + port + "/student", student3, Student.class);
+           String url = "http://localhost:" + port + "/student" + "/min-And-max" + "?min=" + "14" + "&max=" + "17";
+           List<?> actualStudent = restTemplate.getForObject(url, List.class);
+           assertEquals(expectedStudent, actualStudent);
+       }
 
-
-
-//
-            //int[] age = {14, 15, 16, 17, 18, 11, 15, 22, 25};
-
-
-
-
-
-//            List<Student> studentList = new ArrayList<>(Arrays.asList(
-//                    new Student(1L, "Катя", 19),
-//                    new Student(2L, "Дима", 17),
-//                    new Student(3L, "Олег", 13),
-//                    new Student(4L, "Вика", 16)));
-//            List<Student> student = new ArrayList<>();
-//            Student postedStudent = this.restTemplate.postForObject("http://localhost:" + port + "/student", student, Student.class);
-
-           // "?min="
-            //"&max="
-//            int[] age = {14, 15, 16, 17, 18, 11, 15, 22, 25};
-//            int min = 0;
-//            int max = 0;
-
-//            Student actualStudent = this.restTemplate.getForObject("http://localhost:" + port + "/student/" + student1.getId(), Student.class);
-
-        //}
     @Test
         void getFacultyByStudentId () {
 
