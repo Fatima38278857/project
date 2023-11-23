@@ -2,11 +2,9 @@ package com.students.project.repository;
 
 
 import com.students.project.model.Student;
-import jakarta.validation.constraints.Max;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
@@ -16,4 +14,18 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByAgeBetween(int min, int max);
 
     List<Student>  findByFacultyId(Long facultyId);
+
+    @Query(value = "SELECT COUNT(*) FROM student",
+    nativeQuery = true)
+    Integer getAllStudentsNumber();
+
+    @Query(value = "SELECT AVG(age) FROM student",
+            nativeQuery = true)
+    Double getAvg();
+
+    @Query(value = "SELECT * FROM student OFFSET 4",
+            nativeQuery = true)
+    List<Student> getLastFiveStudents();
+
+
 }
