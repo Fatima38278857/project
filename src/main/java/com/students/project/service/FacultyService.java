@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class  FacultyService {
@@ -48,7 +47,7 @@ public class  FacultyService {
     public Collection<Faculty> findColor(String color) {
         ArrayList<Faculty> result = new ArrayList<>();
         for (Faculty faculty : facultyRepository.findAll()) {
-            if (Objects.equals(faculty.getColor(), color)) {
+            if ((faculty.getColor().equals(color))) {
                 result.add(faculty);
             }
         }
@@ -64,12 +63,16 @@ public class  FacultyService {
     }
 
     public List<Student> getStudentOfId(Long id) {
-         return  studentRepository.findByFacultyId(id);
+        return studentRepository.findByFacultyId(id);
 
     }
 
+    public List<Faculty> allFaculty() {
+        return facultyRepository.allFaculty();
+
 
     }
+}
 
 
 
