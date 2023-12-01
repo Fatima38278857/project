@@ -62,7 +62,7 @@ public class AvatarService {
 
 
     private String getExtensions(String fileName) {
-        logger.info("Был вызван getExtensions");
+        logger.info("Был вызван getExtensions" );
         return fileName.substring(fileName.lastIndexOf(".") + 1);
 
     }

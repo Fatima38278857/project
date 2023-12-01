@@ -30,11 +30,12 @@ public class  FacultyService {
 
 
     public Faculty createFaculty(Faculty faculty) {
+        logger.info("Был вызван createFaculty");
         return facultyRepository.save(faculty);
     }
 
     public Faculty readFaculty(long id) {
-        logger.error("Был вызван getExtensions и такого студента нет", id);
+        logger.error("Был вызван readFaculty и такого студента нет", id);
         return facultyRepository.findById(id).orElseThrow(() ->
                 new FacultyNotFoundException("Такого факультета нет"));
 

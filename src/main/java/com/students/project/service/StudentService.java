@@ -26,7 +26,7 @@ public class StudentService {
 
 
     public Student create(Student student) {
-        logger.info("Был вызван create");
+        logger.info(" Был вызван create");
         return studentRepository.save(student);
     }
 
