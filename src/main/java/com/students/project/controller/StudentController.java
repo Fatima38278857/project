@@ -4,11 +4,13 @@ package com.students.project.controller;
 import com.students.project.model.Faculty;
 import com.students.project.model.Student;
 import com.students.project.service.StudentService;
+import io.swagger.v3.core.util.Json;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @RestController
@@ -79,6 +81,7 @@ public class StudentController {
     public List<Student> getFiveStudents() {
         return studentService.getFiveStudents();
     }
+
 }
 
 
