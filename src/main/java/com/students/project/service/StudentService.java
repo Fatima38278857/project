@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -19,10 +21,9 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
-    // В каждом сервисе реализовать CRUD-методы для создания, чтения, изменения и удаления сущностей.
 
     public Student create(Student student) {
-       return studentRepository.save(student);
+        return studentRepository.save(student);
     }
 
 
@@ -36,8 +37,8 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public void deletee(long id) {
-         studentRepository.deleteById(id);
+    public void delete(long id) {
+        studentRepository.deleteById(id);
     }
 
     public Collection<Student> findByAge(int age) {
@@ -50,21 +51,45 @@ public class StudentService {
         return result;
     }
 
-       public List<Student> findByAllAge(int min, int max){
-       return studentRepository.findByAgeBetween(min, max);
+    public List<Student> findByAllAge(int min, int max) {
+        return studentRepository.findByAgeBetween(min, max);
     }
 
-    public List<Student> AllStudentInformation(){
+    public List<Student> allStudentInformation() {
         return studentRepository.studentAll();
     }
 
-       public Faculty  getFacultyById(Long id){
+    public Faculty getFacultyById(Long id) {
         return studentRepository.findById(id).get().getFaculty();
-      }
+    }
 
-      public List<Student>  getByFacultyId(Long facultyId){
+    public List<Student> getByFacultyId(Long facultyId) {
         return studentRepository.findByFacultyId(facultyId);
-      }
-}
+    }
 
+    public Integer getAllStudentsNumber() {
+        return studentRepository.getAllStudentsNumber();
+    }
+
+    public Double getAvg() {
+        return studentRepository.getAvg();
+    }
+
+    public List<Student> getFiveStudents() {
+        return studentRepository.getLastFiveStudents();
+    }
+
+    public List<String> getNamesAlphabeticalOrderUppercase() {
+        return studentRepository.findAll().stream()
+                .map(n -> n.getName().toUpperCase()).sorted().collect(Collectors.toList());
+    }
+
+    public double getAverageAgeOfStudents() {
+        IntSummaryStatistics stats = studentRepository.findAll().stream().mapToInt(Student::getAge)
+                .summaryStatistics();
+        return stats.getAverage();
+
+    }
+
+}
 
