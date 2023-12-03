@@ -8,12 +8,10 @@ import com.students.project.repository.FacultyRepository;
 import com.students.project.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
-public class  FacultyService {
+public class FacultyService {
 
     private final FacultyRepository facultyRepository;
     private final StudentRepository studentRepository;
@@ -24,26 +22,20 @@ public class  FacultyService {
     }
 
 
-    // В каждом сервисе реализовать CRUD-методы для создания, чтения, изменения и удаления сущностей.
-
     public Faculty createFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
-
     public Faculty readFaculty(long id) {
         return facultyRepository.findById(id).orElseThrow(() ->
                 new FacultyNotFoundException("Такого факультета нет"));
 
     }
-
     public Faculty updateFaculty(Faculty faculty) {
         return facultyRepository.save(faculty);
     }
-
     public void deleteFaculty(long id) {
         facultyRepository.deleteById(id);
     }
-
     public Collection<Faculty> findColor(String color) {
         ArrayList<Faculty> result = new ArrayList<>();
         for (Faculty faculty : facultyRepository.findAll()) {
@@ -53,23 +45,23 @@ public class  FacultyService {
         }
         return result;
     }
-
-    public Faculty filtrName(String name) {
+    public Faculty filterName(String name) {
         return facultyRepository.findFacultyByNameIgnoreCase(name);
     }
 
-    public Faculty filtrColor(String color) {
+    public Faculty filterColor(String color) {
         return facultyRepository.findFacultyByColorIgnoreCase(color);
     }
 
     public List<Student> getStudentOfId(Long id) {
         return studentRepository.findByFacultyId(id);
-
     }
-
     public List<Faculty> allFaculty() {
         return facultyRepository.allFaculty();
-
+    }
+    public Optional<String> getLongestFacultyName() {
+        return  facultyRepository.allFaculty().stream().map(Faculty::getName)
+                .max(Comparator.comparing(String::length));
 
     }
 }

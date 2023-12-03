@@ -79,6 +79,16 @@ public class StudentController {
     public List<Student> getFiveStudents() {
         return studentService.getFiveStudents();
     }
+
+    @GetMapping({"/stream-of-name"})
+    public List<String> fkgjfgfhg(){
+        return studentService.getNamesAlphabeticalOrderUppercase();
+    }
+
+    @GetMapping({"/stream-of-age"})
+    public double vmfkmlkm(){
+        return studentService.getAverageAgeOfStudents();
+    }
 }
 
 

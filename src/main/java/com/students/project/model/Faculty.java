@@ -74,4 +74,6 @@ public class Faculty {
     public int hashCode() {
         return Objects.hash(id, name, color);
     }
+
+
 }

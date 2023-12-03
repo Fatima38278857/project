@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -19,7 +21,6 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
-    // В каждом сервисе реализовать CRUD-методы для создания, чтения, изменения и удаления сущностей.
 
     public Student create(Student student) {
         return studentRepository.save(student);
@@ -74,11 +75,21 @@ public class StudentService {
         return studentRepository.getAvg();
     }
 
-    public  List<Student> getFiveStudents() {
+    public List<Student> getFiveStudents() {
         return studentRepository.getLastFiveStudents();
     }
 
+    public List<String> getNamesAlphabeticalOrderUppercase() {
+        return studentRepository.findAll().stream()
+                .map(n -> n.getName().toUpperCase()).sorted().collect(Collectors.toList());
+    }
+
+    public double getAverageAgeOfStudents() {
+        IntSummaryStatistics stats = studentRepository.findAll().stream().mapToInt(Student::getAge)
+                .summaryStatistics();
+        return stats.getAverage();
+
+    }
+
 }
-
-
 

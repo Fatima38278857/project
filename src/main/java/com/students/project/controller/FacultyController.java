@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("faculty")
@@ -55,10 +55,10 @@ public class FacultyController {
     @GetMapping("filter")
     public ResponseEntity<Faculty> filterByNameAndColor(@RequestParam(required = false) String name, @RequestParam(required = false) String color) {
         if (name != null && !name.isBlank()) {
-            return ResponseEntity.ok(facultyService.filtrName(name));
+            return ResponseEntity.ok(facultyService.filterName(name));
         }
         if (color != null && !color.isBlank())
-            return ResponseEntity.ok(facultyService.filtrColor(color));
+            return ResponseEntity.ok(facultyService.filterColor(color));
           return null;
     }
 
@@ -71,6 +71,10 @@ public class FacultyController {
     @GetMapping("All- faculty")
     public List<Faculty> geyAllFaculty() {
         return facultyService.allFaculty();
+    }
+    @GetMapping({"/length-name"})
+    public Optional<String> longestFaculty(){
+         return facultyService.getLongestFacultyName();
     }
 }
 
