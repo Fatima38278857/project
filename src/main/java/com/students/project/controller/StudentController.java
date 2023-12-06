@@ -81,13 +81,23 @@ public class StudentController {
     }
 
     @GetMapping({"/stream-of-name"})
-    public List<String> fkgjfgfhg(){
+    public List<String> streamName(){
         return studentService.getNamesAlphabeticalOrderUppercase();
     }
 
     @GetMapping({"/stream-of-age"})
-    public double vmfkmlkm(){
+    public double streamAge(){
         return studentService.getAverageAgeOfStudents();
+    }
+
+    @GetMapping("/print-threads")
+    public void printIn() {
+        studentService.printThread();
+    }
+
+    @GetMapping("/print-sync")
+    public void printInSync() {
+        studentService.printStudentsSync();
     }
 }
 
