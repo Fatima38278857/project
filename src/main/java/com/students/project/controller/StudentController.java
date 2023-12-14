@@ -4,7 +4,6 @@ package com.students.project.controller;
 import com.students.project.model.Faculty;
 import com.students.project.model.Student;
 import com.students.project.service.StudentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,7 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-    public void ydolit(@PathVariable Long id) {
+    public void deleteStudent(@PathVariable Long id) {
         studentService.deletee(id);
     }
 
@@ -51,8 +50,8 @@ public class StudentController {
         return ResponseEntity.ok(Collections.emptyList());
     }
 
-    @GetMapping({"min-And-min"})
-    public List<Student> filtrAge(@RequestParam int min, @RequestParam() int max) {
+    @GetMapping({"min-And-max"})
+    public List<Student> filterAge(@RequestParam int min, @RequestParam() int max) {
         return  studentService.findByAllAge(min, max);
     }
 

@@ -19,6 +19,4 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     nativeQuery = true)
     Integer getAllStudentsNumber();
 
-    Double getAvg();
-    Integer getLastFiveStudents();
 }
