@@ -16,10 +16,9 @@ import java.util.List;
 public class FacultyController {
 
 
-
     private final FacultyService facultyService;
 
-    public FacultyController (FacultyService facultyService) {
+    public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
 
@@ -39,12 +38,12 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}")
-    public void ydolit(@PathVariable Long id) {
+    public void deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
     }
 
-    @GetMapping(params = {"faculty"})
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(name = "faculty", required = false) String color) {
+    @GetMapping({"filterAndColor"})
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(name = "color", required = false) String color) {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findColor(color));
         }
@@ -52,21 +51,21 @@ public class FacultyController {
     }
 
 
-    @GetMapping("filter")
+    @GetMapping("filterByName-Color")
     public ResponseEntity<Faculty> filterByNameAndColor(@RequestParam(required = false) String name, @RequestParam(required = false) String color) {
-        if (name != null && !name.isBlank()) {
-            return ResponseEntity.ok(facultyService.filtrName(name));
+        if (name != null && color != null) {
+            return ResponseEntity.ok(facultyService.filterNameAndColor(name, color));
         }
-        if (color != null && !color.isBlank())
-            return ResponseEntity.ok(facultyService.filtrColor(color));
-          return null;
+   return null;
     }
 
-    @GetMapping({"student-faculty"})
-    public List<Student> getStudentByFacultyId(@RequestParam Long id){
-        return facultyService.getStudentOfId(id);
+
+        @GetMapping({"student-faculty"})
+        public List<Student> getStudentByFacultyId (@RequestParam Long id){
+            return facultyService.getStudentOfId(id);
+        }
+
     }
 
-}
 
 

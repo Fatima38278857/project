@@ -55,13 +55,15 @@ public class  FacultyService {
         return result;
     }
 
-    public Faculty filtrName(String name) {
-        return facultyRepository.findFacultyByNameIgnoreCase(name);
+    public Faculty filterNameAndColor(String name, String color) {
+          return facultyRepository.findFacultyByNameAndColorIgnoreCase(name, color);
     }
-
-    public Faculty filtrColor(String color) {
-        return facultyRepository.findFacultyByColorIgnoreCase(color);
-    }
+//        return facultyRepository.findFacultyByNameIgnoreCase(name);
+//    }
+//
+//    public Faculty filterColor(String color) {
+//        return facultyRepository.findFacultyByColorIgnoreCase(color);
+ //   }
 
     public List<Student> getStudentOfId(Long id) {
          return  studentRepository.findByFacultyId(id);
