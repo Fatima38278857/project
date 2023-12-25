@@ -1,12 +1,9 @@
 package com.students.project.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.students.project.model.Student;
 import com.students.project.repository.StudentRepository;
 import com.students.project.service.StudentService;
-import org.hibernate.service.spi.InjectService;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,9 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,7 +32,7 @@ class MockStudentControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-   private StudentRepository studentRepository;
+    private StudentRepository studentRepository;
     @SpyBean
     private StudentService studentService;
 
@@ -43,11 +41,10 @@ class MockStudentControllerTest {
 
 
     @Test
-    void saveStudent() throws Exception {
+    void restStudent() throws Exception {
         final long id = 1L;
         final String name = "Вася";
-        final  int age = 23;
-
+        final int age = 23;
 
 
         JSONObject studentObject = new JSONObject();
@@ -72,113 +69,79 @@ class MockStudentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(age));
 
         mockMvc.perform(MockMvcRequestBuilders
-                .get("/id/" + id)
-                .accept(MediaType.APPLICATION_JSON))
-                //.andExpect(status().isOk())
+                        .get("/student/" + id)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(name))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(age));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put("/student")
+                        .content(studentObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()) //receive
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(name))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(age));
 
 
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/student/" + id))
+                .andExpect(status().isOk());
 
     }
 
 
     @Test
-    void post() throws Exception {
-//        //Подготовка входных данных
-//        Student studentForCreate = new Student(0L,"Иван", 20);
-//
-//        String request = objectMapper.writeValueAsString(studentForCreate);
-//
-//        Student studentId = new Student(0L,"Иван", 20);
-//        long id = 1l;
-//        studentId.setId(id);
-//
-//        //Подготовка ожидаемого результат
-//        when(studentRepository.save(studentForCreate)).thenReturn(studentId);
-//
-//        //Начало теста
-//        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/student")
-//                        .content(request)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk()) //receive
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(studentForCreate.getName()))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(studentForCreate.getAge()));
-//
-//        verify(studentRepository).save(studentForCreate);
-//        verifyNoMoreInteractions(studentRepository);
+    void findStudents() throws Exception {
+        //Подготовка входных данных
+        Student student = new Student(1L, "Caving", 22);
+        Student student1 = new Student(2L, "Sasha", 22);
+        Student student3 = new Student(3L, "Sas", 19);
+
+        //Подготовка ожидаемого результат
+        when(studentRepository.findAll()).thenReturn(List.of(student, student1));
+
+        //age?age=22'
+        //Начало теста
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/age" + "?age=" + 22)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].age").value(22))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("Caving"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].age").value(22))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name").value("Sasha"));
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.[2].name").value("Sas"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.[2].age").value(19));
+
+
     }
 
     @Test
-   void get() //throws Exception
-    {
-//        //Подготовка входных данных
-//        Student studentForCreate = new Student(0L,"Иван", 20);
-//        studentRepository.save(studentForCreate);
-//        long id = 1l;
-//
-//        //Подготовка ожидаемого результат
-//        Student studentId = new Student(0L,"Иван", 20);
-//        studentId.setId(id);
-//
-//        when(studentRepository.findById(id)).thenReturn(Optional.of(studentId));
-//
-//        //Начало теста
-//        mockMvc.perform(
-//                        MockMvcRequestBuilders
-//                                .get("/id")
-//                                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(studentId.getName()))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(studentId.getAge()));
-//
-//        verify(studentRepository).findById(id);
-//        verifyNoMoreInteractions(studentRepository);
-    }
+    void filterAge() throws Exception {
+        //Подготовка входных данных
+        Student student = new Student(1L, "Caving", 20);
+        Student student1 = new Student(2L, "Sasha", 23);
+        Student student3 = new Student(3L, "Sas", 25);
+        Student student4 = new Student(4L, "Sasj", 14);
 
-    @Test
-    void put() throws Exception {
-//        //Подготовка входных данных
-//        Student studentForCreate = new Student(0L,"Иван", 20);
-//
-//        String request = objectMapper.writeValueAsString(studentForCreate);
-//
-//        Student studentId = new Student(0L,"Саша", 22);
-//        long id = 1l;
-//        studentId.setId(id);
-//
-//        //Подготовка ожидаемого результат
-//        when(studentRepository.save(studentForCreate)).thenReturn(studentId);
-//
-//        //Начало теста
-//        mockMvc.perform(MockMvcRequestBuilders
-//                .put("/student")
-//                        .content(request)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk()) //receive
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(id))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(studentForCreate.getName()))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(studentForCreate.getAge()));
-//
-//        verify(studentRepository).findById(id);
-//        verifyNoMoreInteractions(studentRepository);
-    }
+        //Подготовка ожидаемого результат
+        when(studentRepository.findByAgeBetween(20, 25)).thenReturn(List.of(student, student1, student3));
 
-    @Test
-    void deleteStudent() {
-    }
+        //Начало теста
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/min-And-max" + "?min=" + 20 + "&max=" + 25)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].age").value(20))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("Caving"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].age").value(23))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name").value("Sasha"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[2].name").value("Sas"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[2].age").value(25));
 
-    @Test
-    void findStudents() {
-    }
-
-    @Test
-    void filterAge() {
     }
 }

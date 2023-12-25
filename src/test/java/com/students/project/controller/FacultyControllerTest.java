@@ -1,5 +1,6 @@
 package com.students.project.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.students.project.model.Faculty;
 import com.students.project.model.Student;
 import com.students.project.repository.FacultyRepository;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FacultyControllerTest {
+    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     FacultyRepository facultyRepository;
     @LocalServerPort
@@ -88,15 +90,11 @@ class FacultyControllerTest {
     void filterByNameAndColor() {
 
         Faculty faculty1 = new Faculty(0L, "Грифендор", "Золото");
-        Faculty faculty2 = new Faculty(0L, "Слизорин", "Зелёный");
-        Faculty faculty3 = new Faculty(0L, "Когтиврам", "Синий");
-        List<Faculty> expectedFaculty = new ArrayList<>(List.of(
-                faculty1
-        ));
+
         facultyRepository.save(faculty1);
         String url = "http://localhost:" + port + "/faculty/" + "filter" + "?name="  + "Грифендор"  + "&color=" + "Золото";
-        ResponseEntity<List<Faculty>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Faculty>>() {
+        ResponseEntity<Faculty> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        assertEquals(expectedFaculty, response.getBody());
+        assertEquals(faculty1, response.getBody());
     }
 }

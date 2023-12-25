@@ -25,7 +25,7 @@ class StudentControllerTestRestTemplate {
     @LocalServerPort
     private int port;
     @Autowired
-    private TestRestTemplate restTemplate;
+    private TestRestTemplate  restTemplate;
 
     @BeforeEach
     void initDb() {
